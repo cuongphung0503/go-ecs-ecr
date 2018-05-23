@@ -4,9 +4,7 @@ machine:
 
 dependencies:
   post:
-    - aws --version
     - aws configure set default.region ap-southeast-1
- 	  - aws configure set default.output json
     - docker build -t go-sample-webapp .
     - aws ecr create-repository --repository-name go-sample-webapp
     - docker tag go-sample-webapp 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
