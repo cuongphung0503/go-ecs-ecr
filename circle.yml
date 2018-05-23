@@ -4,17 +4,9 @@ machine:
 
 dependencies:
   post:
+    - eval $(aws ecr get-login --region ap-southeast-1 --no-include-email)
+	  - docker push 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
     - aws configure set default.region ap-southeast-1
     - docker build -t go-sample-webapp .
     - aws ecr create-repository --repository-name go-sample-webapp
     - docker tag go-sample-webapp 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
-
-test:
-  post:
-    - docker run -d -p 8080:8080 --name sample-go-webapp 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp; sleep 10
-
-deployment:
-  prod:
-    branch: master
-    commands:
-      - ./deploy.sh
