@@ -3,11 +3,11 @@
 # more bash-friendly output for jq
 # JQ="jq --raw-output --exit-status"
 
-configure_aws_cli(){
-# 	aws --version
+# configure_aws_cli(){
+	aws --version
 	aws configure set default.region ap-southeast-1
 	aws configure set default.output json
-}
+# }
 
 # deploy_cluster() {
 
