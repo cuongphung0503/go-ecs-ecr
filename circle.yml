@@ -5,6 +5,7 @@ machine:
 dependencies:
   post:
     - docker build -t 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp .
+    - docker tag go-sample-webapp 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
 
 test:
   post:
