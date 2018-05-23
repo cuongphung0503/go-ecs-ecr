@@ -8,5 +8,5 @@ dependencies:
     - docker build -t go-sample-webapp .
     - aws ecr create-repository --repository-name go-sample-webapp
     - docker tag go-sample-webapp 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
-    - eval $($(aws ecr get-login --region ap-southeast-1)
+    - eval $(aws ecr get-login --region ap-southeast-1)
     - docker push 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
