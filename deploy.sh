@@ -59,7 +59,6 @@ configure_aws_cli(){
 # }
 
 # push_ecr_image(){
-	docker tag go-sample-webapp aws_account_id.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
 	eval $(aws ecr get-login --region ap-southeast-1 --no-include-email)
 	docker push 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
 # }
