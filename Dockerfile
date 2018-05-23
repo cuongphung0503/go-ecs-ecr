@@ -1,8 +1,19 @@
-# Building on top of Ubuntu 14.04. The best distro around.
-FROM ubuntu:14.04
+FROM ubuntu:12.04
 
-COPY . /opt/
+# Install dependencies
+RUN apt-get update -y
+RUN apt-get install -y apache2
+
+# Install apache and write hello world message
+RUN echo "Hello World!" > /var/www/index.html
+
+# Configure apache
+RUN a2enmod rewrite
+RUN chown -R www-data:www-data /var/www
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
 
 EXPOSE 8080
 
-ENTRYPOINT ["/opt/go-ecs-ecr"]
+CMD ["/usr/sbin/apache2", "-D",  "FOREGROUND"]
