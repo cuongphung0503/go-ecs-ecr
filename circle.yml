@@ -15,7 +15,7 @@ dependencies:
 test:
   post:
     - docker run -d -p 8080:8080 --name sample-go-webapp 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp; sleep 10
-    - curl --retry 10 --retry-delay 5 localhost:8080 | grep "Hello World!"
+    - curl --retry 10 --retry-delay 5 localhost:8080 | grep "Hello CircleCI!"
 
 deployment:
   prod:
