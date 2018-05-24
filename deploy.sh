@@ -38,7 +38,7 @@ make_task_def(){
 register_definition() {
 
     if revision=$(aws ecs register-task-definition --container-definitions "$task_def" --family "circleci"); then
-        echo "Revision: $revision"
+        echo "Revision: $revision["revision"]"
     else
         echo "Failed to register task definitions"
         return 1
@@ -46,7 +46,7 @@ register_definition() {
 }
 
 run_task(){
-    if run = $(aws ecs run-task --cluster circleci --task-definition "$revision"); then
+    if run = $(aws ecs run-task --cluster circleci --task-definition "circleci:$revision["revision"]"); then
     	echo $run
     else 
   	echo "Failed"
