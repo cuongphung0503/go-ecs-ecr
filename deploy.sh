@@ -11,7 +11,7 @@ configure_aws_cli(){
 
 push_ecr_image(){
 	eval $(aws ecr get-login --region ap-southeast-1)
-	docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp:$CIRCLE_SHA1
+	docker push 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
 }
 
 make_task_def(){
