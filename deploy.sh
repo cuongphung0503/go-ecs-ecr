@@ -37,17 +37,16 @@ make_task_def(){
 
 register_definition() {
 
-    if revision=$(aws ecs register-task-definition --container-definitions "$task_def" --family "circleci"); then
-        echo "Revision: ${revision.taskDefinition.revision}"
+    if revision=$(aws ecs register-task-definition --container-definitions "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then
+        echo "Revision: $revision"
     else
         echo "Failed to register task definitions"
         return 1
     fi
-    task_definition = "circleci:${revision.taskDefinition.revision}"
 }
 
 run_task(){
-    if run = $(aws ecs run-task --cluster circleci --task-definition "$task_definition"); then
+    if run = $(aws ecs run-task --cluster circleci --task-definition $task_definition | $JQ '.taskDefinition.revision'); then
     	echo $run
     else 
   	echo "Failed"
