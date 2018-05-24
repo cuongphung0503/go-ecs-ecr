@@ -9,6 +9,37 @@ configure_aws_cli(){
 	aws configure set default.output json
 }
 
+make_task_def(){
+	task_template='[
+		{
+			"name": "go-sample-webapp",
+			"image": "012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp",
+			"essential": true,
+			"memory": 200,
+			"cpu": 10,
+			"portMappings": [
+				{
+					"containerPort": 8080,
+					"hostPort": 80
+				}
+			]
+		}
+	]'
+
+	task_def=$(printf "$task_template")
+}
+
+register_definition() {
+
+    if revision=$(aws ecs register-task-definition --container-definitions "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then
+        echo "Revision: $revision"
+    else
+        echo "Failed to register task definitions"
+        return 1
+    fi
+
+}
+
 deploy_cluster() {
 
     family="sample-webapp-task-family"
@@ -38,40 +69,9 @@ deploy_cluster() {
     return 1
 }
 
-make_task_def(){
-	task_template='[
-		{
-			"name": "go-sample-webapp",
-			"image": "012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp",
-			"essential": true,
-			"memory": 200,
-			"cpu": 10,
-			"portMappings": [
-				{
-					"containerPort": 8080,
-					"hostPort": 80
-				}
-			]
-		}
-	]'
-
-	task_def=$(printf "$task_template" "012881927014")
-}
-
 push_ecr_image(){
 	eval $(aws ecr get-login --region ap-southeast-1)
 	docker push 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
-}
-
-register_definition() {
-
-    if revision=$(aws ecs register-task-definition --container-definitions "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then
-        echo "Revision: $revision"
-    else
-        echo "Failed to register task definitions"
-        return 1
-    fi
-
 }
 
 configure_aws_cli
