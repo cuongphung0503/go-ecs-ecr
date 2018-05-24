@@ -46,7 +46,7 @@ register_definition() {
 }
 
 run_task(){
-    if run = $(aws  run-task --cluster circleci --task-definition "$task_def"); then
+    if run = $(aws ecs run-task --cluster circleci --task-definition "$task_def"); then
     	echo $run
     else 
   	echo "Failed"
