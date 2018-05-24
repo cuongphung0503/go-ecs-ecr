@@ -47,7 +47,7 @@ register_definition() {
 
 run_task(){
  	task_definition=$(echo $revision | jq '.taskDefinition.revision')
-  	a = $(echo "circleci:$task_definition")
+  	a = "circleci:$task_definition"
     if run = $(aws ecs run-task --cluster circleci --task-definition "$a" ); then
     	echo $run
     else 
