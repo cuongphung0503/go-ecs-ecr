@@ -19,7 +19,7 @@ make_task_def(){
 	task_template='[
 		{
 			"name": "go-sample-webapp",
-			"image": "%s.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp:%s",
+			"image": "012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp",
 			"essential": true,
 			"memory": 200,
 			"cpu": 10,
@@ -32,7 +32,7 @@ make_task_def(){
 		}
 	]'
 
-	task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $CIRCLE_SHA1)
+	task_def="$task_template"
 }
 
 register_definition() {
