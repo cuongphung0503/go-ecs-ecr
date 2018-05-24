@@ -1,19 +1,20 @@
-FROM ubuntu:12.04
+FROM ubuntu:16.04
 
-# Install dependencies
-RUN apt-get update -y
-RUN apt-get install -y apache2
+MAINTAINER CuongPM<cuomgpm0503@gmail.com>
 
-# Install apache and write hello world message
-RUN echo "Hello World!" > /var/www/index.html
+RUN DEBIAN_FRONTEND=noninteractive
 
-# Configure apache
-RUN a2enmod rewrite
-RUN chown -R www-data:www-data /var/www
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
+RUN apt-get install -y nginx
 
-EXPOSE 8080
+RUN echo "mysql-server mysql-server/root_password password root" | debconf-set-selections \
+    && echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections \
+    && apt-get install -y mysql-server
 
-CMD ["/usr/sbin/apache2", "-D",  "FOREGROUND"]
+WORKDIR /venv
+
+ADD deploy.sh /venv
+
+RUN chmod a+x /venv/*
+
+ENTRYPOINT ["/venv/deploy.sh"]
+
