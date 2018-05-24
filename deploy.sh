@@ -46,8 +46,8 @@ register_definition() {
 }
 
 run_task(){
-	a=$revision | jq '.taskDefinition.revision'
-    if run = $(aws ecs run-task --cluster circleci --task-definition $a); then
+	task-definition=$revision | jq '.taskDefinition.revision'
+    if run = $(aws ecs run-task --cluster circleci --task-definition "$a"); then
     	echo $run
     else 
   	echo "Failed"
