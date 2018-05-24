@@ -4,15 +4,15 @@ machine:
 
 dependencies:
   post:
-    - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp:$CIRCLE_SHA1 .
+    - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp .
     # - aws ecr create-repository --repository-name go-sample-webapp
-    # - docker tag go-sample-webapp 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
+    - docker tag go-sample-webapp 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
     # - eval $(aws ecr get-login --region ap-southeast-1)
     # - docker push 012881927014.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp
 
 test:
   post:
-    - docker run -d -p 8080:8080 --name sample-go-webapp $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp:$CIRCLE_SHA1; sleep 10
+    - docker run -d -p 8080:8080 --name sample-go-webapp $AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/go-sample-webapp; sleep 10
     - curl --retry 10 --retry-delay 5 localhost:8080 | grep "Hello World!"
 
 deployment:
